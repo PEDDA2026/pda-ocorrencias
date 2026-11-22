@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgis/postgis:18-3.7
+    environment:
+      POSTGRES_DB: ocorrencias
+      POSTGRES_USER: ocorrencias
+      POSTGRES_PASSWORD: ocorrencias_dev
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgis-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U ocorrencias -d ocorrencias"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  postgis-data:
