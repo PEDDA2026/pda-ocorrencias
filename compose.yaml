@@ -1,3 +1,5 @@
+name: ocorrenciaspt
+
 services:
   db:
     image: postgis/postgis:18-3.7
