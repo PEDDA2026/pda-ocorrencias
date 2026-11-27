@@ -1,0 +1,37 @@
+# Build & Gradle caches
+.gradle/
+.kotlin/
+**/build/
+!src/**/build/
+
+# IDE & OS files
+.idea/
+*.iml
+.DS_Store
+local.properties
+
+# Android native & captures
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Xcode / iOS
+xcuserdata/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# Logs, archives & JVM crash dumps
+*.log
+hs_err_pid*
+replay_pid*
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
