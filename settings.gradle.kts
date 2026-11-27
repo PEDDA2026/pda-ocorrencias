@@ -1,4 +1,4 @@
-rootProject.name = "OcorrenciasPT"
+rootProject.name = "ocorrencias"
 
 pluginManagement {
     repositories {
@@ -31,8 +31,10 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-include(":app:androidApp")
-include(":app:desktopApp")
-include(":app:shared")
-include(":core")
 include(":server")
+include(":android")
+include(":desktop")
+include(":shared:core")
+include(":shared:client")
+include(":shared:presentation")
+include(":shared:ui")

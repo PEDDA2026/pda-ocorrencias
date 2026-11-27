@@ -3,14 +3,14 @@ plugins {
     alias(libs.plugins.ktor)
 }
 
-group = "pt.ocorrencias.app"
+group = "pt.ua.estga.ocorrencias"
 version = "1.0.0"
 application {
-    mainClass = "pt.ocorrencias.app.ApplicationKt"
+    mainClass = "pt.ua.estga.ocorrencias.ApplicationKt"
 }
 
 dependencies {
-    api(project(":core"))
+    api(project(":shared:core"))
     implementation(libs.logback)
     implementation(libs.ktor.serverCore)
     implementation(libs.ktor.serverNetty)

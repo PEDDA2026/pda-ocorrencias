@@ -1,40 +1,46 @@
-# pda-ocorrencias
+# Ocorrências — PDA 2026/27, Grupo 2
 
-This is a Kotlin Multiplatform project targeting Android, Desktop (JVM), Server.
+Plataforma de reporte de ocorrências na via pública: um servidor e dois clientes
+(Android e desktop) feitos em Kotlin Multiplatform, que partilham o código em `shared/`.
 
-* [/app/shared](./app/shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./app/shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./app/shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./app/shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
+## Estrutura
 
-* [/core](./core/src) is for the code that will be shared between all targets in the project.
-  The most important subfolder is [commonMain](./core/src/commonMain/kotlin). If preferred, you
-  can add code to the platform-specific folders here too.
+```
+server/              Servidor Ktor; acede à BD da UA por stored procedures
+android/             Cliente Android (visitante, cidadão, técnico)
+desktop/             Cliente desktop (gestor de entidade, gestor da plataforma)
+shared/              Código multiplataforma usado pelos dois clientes
+  core/              Domínio: modelos, estados, máquina de estados (também usado pelo servidor)
+  client/            Cliente da API (Ktor client): uma operação por rota, sessão e erros
+  presentation/      ViewModels em Kotlin puro (estado + ações), sem Compose nem Android
+  ui/                Interface em Compose Multiplatform: tema, componentes e ecrãs
+```
 
-* [/server](./server/src/main/kotlin) is for the Ktor server application.
+Dependências:
 
-### Running the apps
+```
+android ─┐
+         ├─► shared:ui ─► shared:presentation ─► shared:client ─► shared:core
+desktop ─┘                                                          ▲
+server ─────────────────────────────────────────────────────────────┘
+```
 
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
+Pacote base: `pt.ua.estga.ocorrencias`.
 
-- Android app: `./gradlew :app:androidApp:assembleDebug`
-- Desktop app:
-  - Hot reload: `./gradlew :app:desktopApp:hotRun --auto`
-  - Standard run: `./gradlew :app:desktopApp:run`
-- Server: `./gradlew :server:run`
+## Requisitos
 
-### Running tests
+- JDK 17+ (o Gradle descarrega sozinho o JDK 21 para o daemon).
+- Android SDK com a plataforma 37; o caminho vai em `local.properties` (`sdk.dir=...`, não vai para o git).
 
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
+## Correr
 
-- Android tests: `./gradlew :app:shared:testAndroidHostTest`
-- Desktop tests: `./gradlew :app:shared:jvmTest`
-- Server tests: `./gradlew :server:test`
+- Android: `./gradlew :android:assembleDebug`
+- Desktop: `./gradlew :desktop:run` (com hot reload: `./gradlew :desktop:hotRun --auto`)
+- Servidor: `./gradlew :server:run`
 
----
+## Testes
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+- Partilhado (desktop/JVM): `./gradlew :shared:ui:jvmTest`
+- Partilhado (Android, no host): `./gradlew :shared:ui:testAndroidHostTest`
+- Servidor: `./gradlew :server:test`
+- Tudo: `./gradlew build`
